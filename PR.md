@@ -34,8 +34,9 @@ Depois, criei os individuals à mão (talvez não a melhor ideia), podia ter fic
 
 # EX2
 
+A script inicial, optei por ir buscar o ttl que foi dado e acrescentar no final o que era pedido, dando parse dos csvs e guardando num dicionário os resultados e os sintomas num conjunto, para verificar repetidos.
 
-
+Na parte das queries o GraphDB não estava a funcionar, por isso não consegui inserir o resultado do construct, apenas fiiz o que fazia sentido para mim.
 
 
 
