@@ -1,0 +1,84 @@
+Quantas doenças estão presentes na ontologia?
+
+PREFIX : <http://www.example.org/disease-ontology#>
+SELECT (COUNT(?doenca) as ?ndoencas)
+WHERE {
+    ?doenca a :Disease
+}
+
+Que doenças estão associadas ao sintoma "yellowish_skin"?
+
+PREFIX : <http://www.example.org/disease-ontology#>
+SELECT ?doenca
+WHERE {
+    ?doenca a :Disease.
+    ?doenca :hasSymptom :yellowish_skin.
+}
+
+Que doenças estão associadas ao tratamento "exercise"?
+
+PREFIX : <http://www.example.org/disease-ontology#>
+SELECT ?doenca
+WHERE {
+    ?doenca a :Disease.
+    ?doenca :hasTreatment :exercise.
+}
+
+Produz uma lista ordenada alfabeticamente com o nome dos doentes.
+
+PREFIX : <http://www.example.org/disease-ontology#>
+SELECT ?nome
+WHERE {
+    ?p a :Patient.
+    ?p :name ?nome
+}
+order by ?nome
+
+
+CONSTRUCT que diagnostique a doença de cada pessoa, ou seja, produza uma lista de triplos com a forma `:patientX :hasDisease :diseaseY`
+
+PREFIX : <http://www.example.org/disease-ontology#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+CONSTRUCT {
+  ?patient :hasDisease ?disease .
+}
+WHERE {
+  ?patient rdf:type :Patient ;
+           :exhibitsSymptom ?symptom .
+  ?disease :hasSymptom ?symptom .
+}
+
+
+Distribuição dos doentes pelas doenças, ou seja, dá como resultado uma lista de pares `(doença, nº de doentes)`;
+
+PREFIX : <http://www.example.org/disease-ontology#>
+SELECT ?doenca (COUNT(?doente) as ?ndoentes)
+WHERE {
+    ?doente a :Patient.
+    ?doenca a :Disease.
+    ?doente :hasDisease  ?doenca.
+}
+group by ?doenca
+
+
+
+Distribuição das doenças pelos sintomas, ou seja, dá como resultado uma lista de pares `(sintoma, nº de doenças com o sintoma)`;
+PREFIX : <http://www.example.org/disease-ontology#>
+SELECT ?sintoma (COUNT(?doenca) as ?nd)
+WHERE {
+    ?doenca a :Disease.
+    ?doenca :hasSymptom  ?sintoma.
+}
+group by ?sintoma
+
+
+Distribuição das doenças pelos tratamentos, ou seja, dá como resultado uma lista de pares `(tratamento, nº de doenças com o tratamento)`.
+
+PREFIX : <http://www.example.org/disease-ontology#>
+SELECT ?tratamento (COUNT(?doenca) as ?nd)
+WHERE {
+    ?doenca a :Disease.
+    ?doenca :hasTreatment  ?tratamento.
+}
+group by ?tratamento
